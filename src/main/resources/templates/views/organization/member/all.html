@@ -1,0 +1,59 @@
+<div class="container" th:fragment="all" xmlns:th="http://www.w3.org/1999/xhtml">
+   <div class="col-md-12">
+       <div class="col-md-6">
+           <h4 class="pull-left"><span th:text="${organization.name}"></span> Members</h4>
+       </div>
+       <div class="col-md-6">
+           <a class="pull-right" th:href="@{'/organization/'+ ${organization.id} + '/member/0'}">
+               <button class="btn btn-info">Add Member</button>
+           </a>
+       </div>
+   </div>
+
+
+    <div class="col-md-12">
+        <div class="card b-1 hover-shadow mb-20" th:each="member : ${organization.members}">
+            <div class="media card-body col-md-12">
+                <div class="col-md-2 start" style="max-width: 70px;">
+                    <img class="avatar avatar-xl no-radius" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=100" alt="..."/>
+                </div>
+                <div class="col-md-8 center">
+                    <div class="mb-2" >
+                        <span class="fs-20 pr-16" th:text="${member.firstName}"></span>
+                        <span class="fs-20 pr-16" th:text="${member.lastName}"></span>
+                    </div>
+                    <small class="fs-16 fw-300 ls-1" th:text="${member.phone}"></small>
+                    <small class="fs-16 fw-300 ls-1" th:text="${member.email}"></small>
+                </div>
+                <div class="col-md-2 end">
+                    <p class="fs-14 text-fade mb-12"><i class="fa fa-map-marker pr-1"></i> <span th:text="${member.address.city}"></span> <span th:text="${member.address.country}"></span></p>
+                </div>
+            </div>
+
+            <footer class="card-footer flexbox align-items-center">
+                <div>
+                    <strong>Birthday</strong>
+                    <span th:text="${member.birthday}"> </span>
+                </div>
+                <div class="card-hover-show">
+                    <div class="pull-right buttons">
+                        <a th:href="'/organization/'+ ${organization.id} + '/member/'+ ${member.id}">
+                            <button class="btn btn-sm btn-warning" type="button"
+                                    data-toggle="tooltip"
+                                    data-original-title="Edit this user">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </button>
+                        </a>
+                        <a th:href="@{'/organization/'+${organization.id}+'/remove/'+ ${member.id} }">
+                            <button class="btn btn-sm btn-danger" type="button"
+                                    data-toggle="tooltip"
+                                    data-original-title="Remove this user">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+</div>

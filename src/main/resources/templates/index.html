@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/layout/head :: head"></head>
+    <body>
+        <div class="container">
+            <div th:replace="fragments/layout/menu :: menu"></div>
+            <div th:replace="${template} :: ${partial}">Page Content</div>
+        </div>
+        <footer th:replace="fragments/layout/footer :: footer"></footer>
+    </body>
+</html>

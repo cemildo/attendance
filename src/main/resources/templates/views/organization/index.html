@@ -1,0 +1,122 @@
+<div class="container" th:fragment="all" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <h4 class="pull-left">Organizations</h4>
+        </div>
+        <div class="col-md-6">
+            <a class="pull-right" th:href="@{/organization/add/0}">
+                <button class="btn btn-info">Add Organization</button>
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div th:each="organization : ${organizations}" class="well col-md-12">
+            <div class="row user-row">
+                <div class="col-xs-3 col-sm-2 col-md-1 col-lg-1">
+                    <img class="img-circle"
+                         src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=50"
+                         alt="User Pic" />
+                </div>
+                <div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">
+                    <strong th:text="${organization.name}">Company Name</strong><br/>
+                    <span class="text-muted">User level: Administrator</span>
+                </div>
+                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 dropdown-user" th:attr="data-for='.'+${organization.id}" >
+                    <i class="glyphicon glyphicon-chevron-down text-muted"></i>
+                </div>
+            </div>
+            <div  th:class="${organization.id}+ ' row user-infos'">
+                <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Company information</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3 hidden-xs hidden-sm">
+                                    <img class="img-circle"
+                                         src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=100"
+                                         alt="User Pic"/>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 hidden-md hidden-lg">
+                                    <img class="img-circle"
+                                         src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=50"
+                                         alt="User Pic"/>
+                                </div>
+
+                                <div class=" col-md-9 col-lg-9">
+                                    <strong th:text="${organization.name}"> </strong><br/>
+                                    <table class="table table-user-information">
+                                        <tbody>
+                                        <tr>
+                                            <td>Email:</td>
+                                            <td th:text="${organization.email}"> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Phone:</td>
+                                            <td th:text="${organization.phone}"> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Website:</td>
+                                            <td th:text="${organization.website}"> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Street:</td>
+                                            <td th:text="${organization.address.street}"> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>City:</td>
+                                            <td th:text="${organization.address.city}">11/12/2013</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Registered since</td>
+                                            <td th:text="${organization.address.street}"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Zip:</td>
+                                            <td th:text="${organization.address.zip}"> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Country:</td>
+                                            <td th:text="${organization.address.country}"> </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="pull-right buttons">
+                                <a th:href="@{'/organization/'+ ${organization.id}}+'/members'">
+                                   <button class="btn btn-sm btn-warning" type="button"
+                                           data-toggle="tooltip"
+                                           data-original-title="Members">
+                                            <i class="fa fa-users" aria-hidden="true"></i>
+                                   </button>
+                                </a>
+                                <a th:href="@{'/organization/add/'+ ${organization.id}}">
+                                   <button class="btn btn-sm btn-warning" type="button"
+                                            data-toggle="tooltip"
+                                            data-original-title="Edit this user">
+                                            <i class="glyphicon glyphicon-edit"></i>
+                                   </button>
+                                </a>
+                                <a th:href="@{'/organization/remove/'+ ${organization.id}}">
+                                    <button class="btn btn-sm btn-danger" type="button"
+                                            data-toggle="tooltip"
+                                            data-original-title="Remove this user">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
