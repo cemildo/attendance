@@ -1,0 +1,66 @@
+
+<div class="container" th:fragment="add" xmlns:th="http://www.w3.org/1999/xhtml">
+    <h4>Add new Organization</h4>
+    <div class="alert alert-info" th:if="${message} != null" th:text="${message}"></div>
+    <div class="row ng-scope">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row pv-lg">
+
+                        <div class="col-lg-12" >
+                            <form class="form-horizontal ng-pristine ng-valid" action="#"
+                                  id="addActivity"
+                                  th:action="'/organization/'+ ${organization.id}+'/activity/add'"
+                                  th:object="${activity}" method="post">
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" >Name</label>
+                                    <div class="col-sm-10">
+                                        <input   th:field="*{id}" type="hidden" placeholder="" th:value="${id}" />
+                                        <input class="form-control" th:field="*{name}" type="text" placeholder="" th:value="${name}" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label"  >Street</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" th:field="*{address.street}" type="text" th:value="*{address.street}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" >Zip</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control"  th:field="*{address.zip}" type="text" th:value="*{address.zip}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label"  >City</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" th:field="*{address.city}" type="text" th:value="*{address.city}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" >Country</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" th:field="*{address.country}" type="text" th:value="*{address.country}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" id="organizationActivity" class="btn btn-default">Add</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

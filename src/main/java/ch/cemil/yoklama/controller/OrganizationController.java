@@ -1,6 +1,7 @@
 package ch.cemil.yoklama.controller;
 
 import ch.cemil.yoklama.Repository.MemberRepository;
+import ch.cemil.yoklama.model.Activity;
 import ch.cemil.yoklama.model.Address;
 import ch.cemil.yoklama.model.Member;
 import ch.cemil.yoklama.model.Organization;
@@ -8,6 +9,7 @@ import ch.cemil.yoklama.Repository.AddressRepository;
 import ch.cemil.yoklama.Repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,8 @@ import static java.util.stream.Collectors.toList;
 public class OrganizationController {
     @Autowired
     private OrganizationRepository organizationRepository;
+    @Autowired
+    private AddressRepository  adressRepository;
 
     @RequestMapping("/")
     public String index(Model model) {
@@ -35,7 +39,7 @@ public class OrganizationController {
     @RequestMapping("/organization/all")
     public String findAll(Model model) {
         List<Organization> organizations = (List<Organization>) organizationRepository.findAll();
-        model.addAttribute("template", "views/organization/index");
+        model.addAttribute("template", "views/organization/all");
         model.addAttribute("partial", "all");
         model.addAttribute("organizations", organizations);
         return "index";
@@ -140,4 +144,47 @@ public class OrganizationController {
 
         return "redirect:/organization/"+ organization.getId() +"/members";
     }
+
+    @RequestMapping(value = "/organization/{orgId}/activities")
+    public String showActivities(@PathVariable long orgId, Model model) {
+        Organization organization = organizationRepository.findOne(orgId);
+        model.addAttribute("template", "views/organization/activity/all");
+        model.addAttribute("partial", "all");
+        model.addAttribute("organization", organization);
+        return "index";
+    }
+
+    @RequestMapping(value = "/organization/{orgId}/activity/{activityId}")
+    public String ShowNewActivityView(@PathVariable long orgId,@PathVariable long activityId, Model model) {
+        Organization organization = organizationRepository.findOne(orgId);
+        Activity activity = new Activity();
+        if(activityId != 0) {
+            activity = organization.getActivities().stream().filter(r -> r.getId() == activityId).findFirst().get();    
+        }
+        model.addAttribute("template", "views/organization/activity/add");
+        model.addAttribute("partial", "add");
+        model.addAttribute("organization", organization);
+        model.addAttribute("activity", activity);
+        return "index";
+    }
+
+
+    @RequestMapping(value = "/organization/{orgId}/activity/add", method = RequestMethod.POST)
+    public String addNewActivity(@ModelAttribute(value = "member") Activity activity, @PathVariable long orgId) {
+
+        Organization organization = organizationRepository.findOne(orgId);
+        if (activity.getId() != 0) {
+            List<Activity>  updatedActivities = organization.getActivities().stream()
+                    .map(o -> o.getId() == activity.getId() ? activity : o ).collect(toList());
+
+            organization.setActivities(updatedActivities);
+        } else {
+            organization.getActivities().add(activity);
+        }
+        adressRepository.save(activity.getAddress());
+        organizationRepository.save(organization);
+
+        return "redirect:/organization/"+ organization.getId() +"/activities";
+    }
+
 }

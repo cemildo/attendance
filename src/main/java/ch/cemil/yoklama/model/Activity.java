@@ -13,10 +13,10 @@ import java.util.List;
 
 @Entity
 @Table
-public class Meeting implements Serializable
+public class Activity implements Serializable
 {
 
-    private static final long serialVersionUID = -3009127732248241606L;
+    private static final long serialVersionUID = -3009157729242241606L;
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -24,18 +24,25 @@ public class Meeting implements Serializable
     private Date date;
     private String name;
 
-    @OneToMany
-    private List<Address> addresses;
+    @OneToOne
+    private Address address;
 
     @OneToOne
     private MeetingType meetingType;
 
-    @ManyToMany
-    private List<Member> members;
+    @OneToMany
+    private List<Attendance> attendances;
 
 
+    public List<Attendance> getAttendances() {
+        return attendances;
+    }
 
-    public Meeting() { super(); }
+    public void setAttendances(List<Attendance> attendances) {
+        this.attendances = attendances;
+    }
+
+    public Activity() { super(); }
 
     public long getId() {
         return id;
@@ -61,12 +68,15 @@ public class Meeting implements Serializable
         this.name = name;
     }
 
-    public List<Address> getAddress() {
-        return addresses;
+    public Address getAddress() {
+        if(address == null) {
+            address = new Address();
+        }
+        return address;
     }
 
-    public void setAddress(List<Address> addresses) {
-        this.addresses = addresses;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public MeetingType getMeetingType() {

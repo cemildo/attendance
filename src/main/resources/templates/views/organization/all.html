@@ -10,7 +10,7 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="col-md-12">
         <div th:each="organization : ${organizations}" class="well col-md-12">
             <div class="row user-row">
                 <div class="col-xs-3 col-sm-2 col-md-1 col-lg-1">
@@ -88,6 +88,13 @@
                         </div>
                         <div class="panel-footer">
                             <div class="pull-right buttons">
+                                <a th:href="@{'/organization/'+ ${organization.id}}+'/activities'">
+                                    <button class="btn btn-sm btn-warning" type="button"
+                                            data-toggle="tooltip"
+                                            data-original-title="Activities">
+                                        <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                    </button>
+                                </a>
                                 <a th:href="@{'/organization/'+ ${organization.id}}+'/members'">
                                    <button class="btn btn-sm btn-warning" type="button"
                                            data-toggle="tooltip"

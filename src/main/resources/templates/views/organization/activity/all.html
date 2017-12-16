@@ -1,0 +1,70 @@
+<div class="container" th:fragment="all" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <h4 class="pull-left">Activities</h4>
+        </div>
+        <div class="col-md-6">
+            <a th:href="@{'/organization/'+ ${organization.id}}+'/activity/0'">
+                <button class="btn btn-info pull-right">Add Activity</button>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 container" th:each="activity : ${organization.activities}">
+        <div class="ticket col-xs-12 col-sm-12">
+            <div class="stub col-xs-12 col-sm-3">
+                <div class="top">
+                    <span class="admit" th:text="${activity.name}"></span>
+                    <span class="line"></span>
+                    <span class="num">
+                        Organization
+                        <span th:text="${organization.name}"></span>
+                      </span>
+                </div>
+                <div class="number">1</div>
+                <div class="invite">
+                    <span>December 2017</span>
+                </div>
+            </div>
+            <div class="check col-xs-12 col-sm-9">
+                <div class="big">
+                    Haftalik <br/> toplanti
+                </div>
+                <div class="info">
+                    <section>
+                        <a th:href="@{'/organization/'+ ${organization.id}}+'/members'">
+                            <button class="btn btn-sm btn-danger" type="button"
+                                    data-toggle="tooltip"
+                                    data-original-title="Add Members">
+                                <i class="fa fa-users" aria-hidden="true"></i>
+                            </button>
+                        </a>
+
+                    </section>
+
+                    <section>
+                        <a th:href="@{'/organization/add/'+ ${organization.id}}">
+                            <button class="btn btn-sm btn-danger" type="button"
+                                    data-toggle="tooltip"
+                                    data-original-title="Edit this event">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </button>
+                        </a>
+                    </section>
+
+                    <section>
+                        <div>Address</div>
+                        <div>
+                            <span th:text="${activity.address.street}"></span>
+                            <span th:text="${activity.address.city}"></span>
+                            <span th:text="${activity.address.country}"></span>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+</div>
+
+
+

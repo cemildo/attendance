@@ -42,20 +42,20 @@ public class Member implements Serializable
     @ManyToMany
     private List<Organization> organizations;
 
-    @ManyToMany
-    private List<Meeting> meetings;
+    @OneToMany
+    private List<Attendance> attendances;
 
     public List<Organization> getOrganization() { return organizations;  }
 
     public void setOrganization(List<Organization> organizations) { this.organizations = organizations; }
 
 
-    public List<Meeting> getMeetings() {
-        return meetings;
+    public List<Attendance> getAttendances() {
+        return attendances;
     }
 
-    public void setMeetings(List<Meeting> meetings) {
-        this.meetings = meetings;
+    public void setAttendances(List<Attendance> attendances) {
+        this.attendances = attendances;
     }
 
     public Member() { super(); }

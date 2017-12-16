@@ -22,9 +22,22 @@ public class Organization implements Serializable
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Member> members;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Activity> activities;
+
+    public List<Activity> getActivities() {
+        if(activities == null) {
+            activities = new ArrayList<Activity>();
+        }
+        return activities;
+    }
+
+    public void setActivities(List<Activity> activities) {
+        this.activities = activities;
+    }
 
     public Organization(){ super();}
 
