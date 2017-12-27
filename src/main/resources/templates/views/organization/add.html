@@ -1,7 +1,9 @@
 
 <div class="container" th:fragment="add" xmlns:th="http://www.w3.org/1999/xhtml">
     <h4>Add new Organization</h4>
-    <div class="alert alert-info" th:if="${message} != null" th:text="${message}"></div>
+    <div class="alert alert-success" th:if="${created} != null" th:text="${created}"></div>
+    <div class="alert alert-info" th:if="${updated} != null" th:text="${updated}"></div>
+    <div class="alert alert-danger" th:if="${errored} != null" th:text="${errored}"></div>
         <div class="row ng-scope">
             <div class="col-md-12">
                 <div class="panel panel-default">

@@ -1,4 +1,6 @@
 package ch.cemil.yoklama.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,12 +22,17 @@ public class Organization implements Serializable
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
+    @JsonIgnore
     private Address address;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "organization_id")
+    @JsonIgnore
     private List<Member> members;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "organization_id")
+    @JsonIgnore
     private List<Activity> activities;
 
     public List<Activity> getActivities() {

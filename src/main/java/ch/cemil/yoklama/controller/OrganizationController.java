@@ -7,6 +7,9 @@ import ch.cemil.yoklama.model.Member;
 import ch.cemil.yoklama.model.Organization;
 import ch.cemil.yoklama.Repository.AddressRepository;
 import ch.cemil.yoklama.Repository.OrganizationRepository;
+import ch.cemil.yoklama.modelViews.ActivityMembers;
+import ch.cemil.yoklama.modelViews.ActivityMembersWrapper;
+import ch.cemil.yoklama.modelViews.MemberView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,30 +66,40 @@ public class OrganizationController {
         return "redirect:/organization/all";
     }
 
+
     @RequestMapping(value = "/organization/add", method = RequestMethod.POST)
     public String add(@ModelAttribute Organization organization, Model model) {
+        final long initialId = organization.getId();
         model.addAttribute("template", "views/organization/add");
         model.addAttribute("partial", "add");
-
         if(organization.getName() == "") {
             model.addAttribute("status", "error");
             model.addAttribute("message", "Please provide a name!");
             return "index";
         }
 
+        Organization dbOrganization = organizationRepository.findOne(organization.getId());
+
+        if(dbOrganization != null) {
+            // ASK neden bunlari ayriyetten save etmem gerekiyor burdaki kisa yol ne?
+            organization.setId(dbOrganization.getId());
+            organization.setActivities(dbOrganization.getActivities());
+            organization.setMembers(dbOrganization.getMembers());
+        }
+
         Organization createdOrganization = organizationRepository.save(organization);
 
         if(createdOrganization != null) {
             model.addAttribute("status", "successfull");
-            if(organization.getId() != 0){
-                model.addAttribute("message", "Organization is updated!");
+            if(initialId != 0){
+                model.addAttribute("updated", "Organization is updated!");
             } else {
-                model.addAttribute("message", "New organization is created!");
+                model.addAttribute("created", "New organization is created!");
             }
 
         } else {
             model.addAttribute("status", "error");
-            model.addAttribute("message", "There is a problem please try again later!");
+            model.addAttribute("errored", "There is a problem please try again later!");
         }
 
         return "index";
@@ -159,7 +172,7 @@ public class OrganizationController {
         Organization organization = organizationRepository.findOne(orgId);
         Activity activity = new Activity();
         if(activityId != 0) {
-            activity = organization.getActivities().stream().filter(r -> r.getId() == activityId).findFirst().get();    
+            activity = organization.getActivities().stream().filter(r -> r.getId() == activityId).findFirst().get();
         }
         model.addAttribute("template", "views/organization/activity/add");
         model.addAttribute("partial", "add");
@@ -173,18 +186,57 @@ public class OrganizationController {
     public String addNewActivity(@ModelAttribute(value = "member") Activity activity, @PathVariable long orgId) {
 
         Organization organization = organizationRepository.findOne(orgId);
+        Address updateOrSave = adressRepository.save(activity.getAddress());
+        activity.setAddress(updateOrSave);
         if (activity.getId() != 0) {
             List<Activity>  updatedActivities = organization.getActivities().stream()
                     .map(o -> o.getId() == activity.getId() ? activity : o ).collect(toList());
-
             organization.setActivities(updatedActivities);
         } else {
             organization.getActivities().add(activity);
         }
-        adressRepository.save(activity.getAddress());
+
         organizationRepository.save(organization);
 
         return "redirect:/organization/"+ organization.getId() +"/activities";
+    }
+
+    @RequestMapping(value = "/organization/{orgId}/activity/{activityId}/attendance")
+    public String ShowActivityAttendance(@PathVariable long orgId,@PathVariable long activityId, Model model) {
+        Organization organization = organizationRepository.findOne(orgId);
+        List<Member> members = organizationRepository.findOne(orgId).getMembers();
+        ActivityMembersWrapper wrapper = new ActivityMembersWrapper();
+
+        List<ActivityMembers> activityMembers = members
+                .stream()
+                .map(member -> new ActivityMembers(member.getId(), member.getFirstName(), member.getLastName()))
+                .collect(toList());
+
+        wrapper.setMembers(activityMembers);
+
+        Activity activity = new Activity();
+
+        if(activityId != 0) {
+            activity = organization.getActivities().stream().filter(r -> r.getId() == activityId).findFirst().get();
+        }
+
+        model.addAttribute("template", "views/organization/attendance/all");
+        model.addAttribute("partial", "all");
+        model.addAttribute("organization", organization);
+        model.addAttribute("activity", activity);
+       // model.addAttribute("members", activityMembers);
+        model.addAttribute("wrapper", wrapper);
+
+        return "index";
+    }
+
+    @RequestMapping(value = "/organization/{orgId}/activity/attendance", method = RequestMethod.POST)
+    public String checkAttendance(@ModelAttribute ActivityMembersWrapper wrapper, @PathVariable long orgId, Model model) {
+
+        Organization organization = organizationRepository.findOne(orgId);
+        model.addAttribute("template", "views/organization/attendance/all");
+        model.addAttribute("partial", "all");
+        return "index";
     }
 
 }

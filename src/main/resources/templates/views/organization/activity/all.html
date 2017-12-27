@@ -26,15 +26,13 @@
                 </div>
             </div>
             <div class="check col-xs-12 col-sm-9">
-                <div class="big">
-                    Haftalik <br/> toplanti
-                </div>
+                <div class="big" th:text="${activity.description}"> </div>
                 <div class="info">
                     <section>
-                        <a th:href="@{'/organization/'+ ${organization.id}}+'/members'">
+                        <a th:href="@{'/organization/'+ ${organization.id} + '/activity/' + ${activity.id} + '/attendance'}">
                             <button class="btn btn-sm btn-danger" type="button"
                                     data-toggle="tooltip"
-                                    data-original-title="Add Members">
+                                    data-original-title="Attendance">
                                 <i class="fa fa-users" aria-hidden="true"></i>
                             </button>
                         </a>
@@ -42,7 +40,7 @@
                     </section>
 
                     <section>
-                        <a th:href="@{'/organization/add/'+ ${organization.id}}">
+                        <a th:href="@{'/organization/'+ ${organization.id}+'/activity/'+ ${activity.id}}">
                             <button class="btn btn-sm btn-danger" type="button"
                                     data-toggle="tooltip"
                                     data-original-title="Edit this event">

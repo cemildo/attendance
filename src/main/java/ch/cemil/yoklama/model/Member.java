@@ -1,5 +1,6 @@
 package ch.cemil.yoklama.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -34,15 +35,20 @@ public class Member implements Serializable
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
+    @JsonIgnore
     private Address address;
 
     @OneToOne
     private MemberType memberType;
 
     @ManyToMany
+    @JoinColumn(name = "member_id")
+    @JsonIgnore
     private List<Organization> organizations;
 
     @OneToMany
+    @JoinColumn(name = "member_id")
+    @JsonIgnore
     private List<Attendance> attendances;
 
     public List<Organization> getOrganization() { return organizations;  }

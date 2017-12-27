@@ -1,6 +1,8 @@
 
 package ch.cemil.yoklama.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,6 +25,7 @@ public class Activity implements Serializable
     private long id;
     private Date date;
     private String name;
+    private String description;
 
     @OneToOne
     private Address address;
@@ -30,9 +33,18 @@ public class Activity implements Serializable
     @OneToOne
     private MeetingType meetingType;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "activity_id")
+    @JsonIgnore
     private List<Attendance> attendances;
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public List<Attendance> getAttendances() {
         return attendances;

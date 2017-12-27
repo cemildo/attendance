@@ -16,13 +16,25 @@ public class Attendance implements Serializable {
     private long id;
     private Date date;
 
+    private boolean isPresent;
+
     @ManyToOne
+    @JoinColumn(name = "attendances_id", updatable = false, insertable = false)
     private Activity activity;
 
     @ManyToOne
+    @JoinColumn(name = "attendances_id", updatable = false, insertable = false)
     private Member member;
 
     Attendance(){}
+
+    public boolean isPresent() {
+        return isPresent;
+    }
+
+    public void setPresent(boolean present) {
+        isPresent = present;
+    }
 
     public long getId() {
         return id;

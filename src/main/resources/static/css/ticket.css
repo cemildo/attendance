@@ -79,7 +79,10 @@
     background: #f0f0f0;
     height: 250px;
     padding: 40px;
+    display: flex;
     position: relative;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .check:before {
     content: '';

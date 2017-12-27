@@ -1,0 +1,25 @@
+
+<div class="container" th:fragment="all" xmlns:th="http://www.w3.org/1999/xhtml">
+    <form class="attendance-members"
+          th:action="'/organization/'+ ${organization.id} + '/activity/attendance'"
+          th:object="${wrapper}"
+          method="post">
+        <!-- title -->
+        <h1>Members</h1>
+
+        <div class="col-sm-12" th:each="member,row : ${wrapper.members}">
+            <input th:attr="id='label-'+${row.count}" type='checkbox'
+                   th:value="|members[${row.index}]|"
+                   th:field="*{members}" />
+
+            <label th:attr="for='label-'+${row.count}">
+                <h2 th:text="${member.firstName} + ' ' + ${member.lastName}"></h2>
+            </label>
+        </div>
+        <input type="hidden" th:name="${members}" th:value="${wrapper.members}" />
+        <div class="col-sm-12">
+            <button type="submit" class="btn btn-default">Save</button>
+        </div>
+
+    </form>
+</div>
