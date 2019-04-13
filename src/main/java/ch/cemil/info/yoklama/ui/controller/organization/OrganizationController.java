@@ -7,6 +7,8 @@ import ch.cemil.info.yoklama.domain.entity.*;
 import ch.cemil.info.yoklama.domain.repository.AddressRepository;
 import ch.cemil.info.yoklama.ui.controller.activity.view.ActivityMembersWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,20 +25,22 @@ public class OrganizationController {
     @Autowired
     private AddressRepository  adressRepository;
 
+    /*
     @RequestMapping("/")
     public String index(Model model) {
-        // entity.addAttribute("template", "views/organization/index");
+        // entity.addAttribute("template", "views/organization/Index");
         // entity.addAttribute("partial", "all");
         return "redirect:/organization/all";
     }
+    */
 
     @RequestMapping("/organization/all")
-    public String findAll(Model model) {
-        List<Organization> organizations = (List<Organization>) organizationService.findAll();
+    public String findAll(Model model, @AuthenticationPrincipal final UserDetails userDetails) {
+        List<Organization> organizations =  organizationService.findAll();
         model.addAttribute("template", "views/organization/all");
         model.addAttribute("partial", "all");
         model.addAttribute("organizations", organizations);
-        return "index";
+        return "Index";
     }
 
     @RequestMapping(value = "/organization/add/{id}", method = RequestMethod.GET)
@@ -48,7 +52,7 @@ public class OrganizationController {
         model.addAttribute("template", "views/organization/add");
         model.addAttribute("partial", "add");
         model.addAttribute("organization", organization);
-        return "index";
+        return "Index";
     }
 
     @RequestMapping(value = "/organization/remove/{id}")
@@ -66,7 +70,7 @@ public class OrganizationController {
         if(organization.getName() == "") {
             model.addAttribute("status", "error");
             model.addAttribute("message", "Please provide a name!");
-            return "index";
+            return "Index";
         }
 
         Organization dbOrganization = organizationService.findOne(organization.getId());
@@ -93,7 +97,7 @@ public class OrganizationController {
             model.addAttribute("errored", "There is a problem please try again later!");
         }
 
-        return "index";
+        return "Index";
     }
 
 
@@ -103,7 +107,7 @@ public class OrganizationController {
         model.addAttribute("template", "views/organization/activity/all");
         model.addAttribute("partial", "all");
         model.addAttribute("organization", organization);
-        return "index";
+        return "Index";
     }
 
     @RequestMapping(value = "/organization/{orgId}/activity/{activityId}")
@@ -117,7 +121,7 @@ public class OrganizationController {
         model.addAttribute("partial", "add");
         model.addAttribute("organization", organization);
         model.addAttribute("activity", activity);
-        return "index";
+        return "Index";
     }
 
 

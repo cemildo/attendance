@@ -28,6 +28,7 @@
         </div>
         <div class="col-sm-12">
             <button type="submit" class="btn btn-default">Save</button>
+            <button type="button" class="btn btn-default"><a th:href="@{'/attendance/saveToGoogle/' + ${activityMembers.activity.id}}">Send to Google</a></button>
         </div>
 
     </form>

@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class Activity implements Serializable
     private Date date;
     private String name;
     private String description;
+    private boolean isOnGoogle = false;
 
     @OneToOne
     private Address address;
@@ -34,11 +36,24 @@ public class Activity implements Serializable
     @OneToOne
     private MeetingType meetingType;
 
+
+    public boolean isOnGoogle() {
+        return isOnGoogle;
+    }
+
+    public void setOnGoogle(boolean onGoogle) {
+        isOnGoogle = onGoogle;
+    }
+
     @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Attendance> attendances;
 
+
     public List<Attendance> getAttendances() {
+        if(attendances == null) {
+            attendances = new ArrayList<>();
+        }
         return attendances;
     }
 

@@ -29,7 +29,7 @@ public class MemberController {
         model.addAttribute("template", "views/organization/member/all");
         model.addAttribute("partial", "all");
         model.addAttribute("organization", organization);
-        return "index";
+        return "Index";
     }
 
     @RequestMapping(value = "/organization/{orgId}/member/{memberId}")
@@ -43,7 +43,7 @@ public class MemberController {
         model.addAttribute("partial", "add");
         model.addAttribute("organization", organization);
         model.addAttribute("member", member);
-        return "index";
+        return "Index";
     }
 
     @RequestMapping(value = "/organization/{orgId}/member/add", method = RequestMethod.POST)
